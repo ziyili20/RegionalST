@@ -1,0 +1,18 @@
+Package: RegionalST
+Type: Package
+Title: Investigating regions of interest and performing cross-regional analysis with spatial transcriptomics data
+Version: 0.1.0
+Authors@R: person(given = "Ziyi", 
+                  family = "Li", 
+                  role=c("aut", "cre"), 
+                  email="zli16@mdanderson.org")
+Description: This package analyze spatial transcriptomics data through cross-regional analysis. It selects regions of interest (ROIs) and identifys cross-regional cell type-specific differential signals. The ROIs can be selected using automatic algorithm or through manual selection. It facilitates manual selection of ROIs using a shiny application. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: FALSE
+RoxygenNote: 7.2.3
+biocViews: Spatial, Transcriptomics, Reactome, KEGG
+Depends: R (>= 4.2.0)
+Imports: stats, grDevices, utils, ggplot2, dplyr, BayesSpace, fgsea, magrittr, SingleCellExperiment, RColorBrewer, Seurat, S4Vectors, tibble, TOAST, assertthat, colorspace, shiny, SummarizedExperiment
+Suggests: BiocStyle, knitr, rmarkdown, gplots
+VignetteBuilder: knitr
