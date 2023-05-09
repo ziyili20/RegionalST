@@ -12,7 +12,7 @@ To view the package vignette in HTML format, run the following lines in R
 library(RegionalST)
 browseVignettes("RegionalST")
 ```
-See HTML tutorial at [Tutorial](https://ziyili20.github.io/RegionalST.html). 
+**See HTML tutorial at [Tutorial](https://ziyili20.github.io/RegionalST.html).**
 
 # Preparing your data for RegionalST through BayesSpace
 
