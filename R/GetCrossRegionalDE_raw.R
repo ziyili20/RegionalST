@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' data("example_sce")
-#' example_sce <- BayesSpace::spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+#' example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 #' # I used a very big padj filter here because this is just a toy data
 #' GetCrossRegionalDE_raw(example_sce, twoCenter = c(1,2),
 #'                        min.pct = 0.01, logfc.threshold = 0.01,

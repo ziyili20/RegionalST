@@ -46,7 +46,7 @@ weight <- data.frame(celltype = c("Cancer Epithelial", "CAFs", "T-cells", "Endot
                                 0.25,0.05,
                                 0.025,0.05,
                                 0.25,0.05,0.025))
-example_sce <- BayesSpace::spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 ## I set our min_raius as 10 and radius vector as 10 and 15 as the example dataset is very small
 example_sce <- RankCenterByEntropy_withProp(example_sce, weight,
                                     selectN = round(length(example_sce$spot)/10),

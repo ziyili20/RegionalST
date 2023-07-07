@@ -8,6 +8,8 @@
 #'
 #' @format A list object.
 #'
+#' @return A list object.
+#'
 #' @keywords datasets
 #'
 #' @references Jassal et al. (2020) Nucleic Acids Research 28(1):27-30

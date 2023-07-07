@@ -44,5 +44,6 @@ DrawRegionProportion <- function(sce,
         ggplot2::theme_minimal() + ggplot2::ylab('Proportions') + ggplot2::xlab('Region') +
         ggplot2::theme(panel.background = element_blank()) +
         ggplot2::scale_fill_manual(values = colorspace::rainbow_hcl(length(unique(", label, "))))")))
-    return(print(p2))
+
+    return(p2)
 }

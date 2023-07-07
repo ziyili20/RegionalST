@@ -23,7 +23,7 @@
 #'                                 0.25,0.05,
 #'                                 0.025,0.05,
 #'                                 0.25,0.05,0.025))
-#' example_sce <- BayesSpace::spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+#' example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 #' GetOneRadiusEntropy(example_sce, selectN = round(length(example_sce$spot)/2),
 #'                     weight = weight, radius = 5, doPlot = TRUE,
 #'                     mytitle = "Radius 5 weighted entropy")

@@ -21,7 +21,7 @@ Plot one selected ROI
 }
 \examples{
 data("example_sce")
-example_sce <- BayesSpace::spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 PlotOneSelectedCenter(example_sce, ploti = 1)
 
 }

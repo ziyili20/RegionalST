@@ -88,5 +88,5 @@ DrawDotplot <- function(allCTres,
             ggplot2::ggtitle(names(allCTres[CT]))
     }
 
-    print(S1)
+    return(S1)
 }

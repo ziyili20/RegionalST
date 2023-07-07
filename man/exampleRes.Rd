@@ -10,6 +10,9 @@ A list object.
 \usage{
 data(exampleRes)
 }
+\value{
+A list object.
+}
 \description{
 A simulated example DE output file
 }

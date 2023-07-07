@@ -13,6 +13,9 @@ A list object.
 \usage{
 data(pathways_reactome)
 }
+\value{
+A list object.
+}
 \description{
 REACTOME database downloaded from MSigDB (Feb, 2023)
 }
