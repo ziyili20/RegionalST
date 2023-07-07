@@ -88,11 +88,14 @@ sce@metadata$Proportions <- CARD_obj@Proportion_CARD
 ## Load example dataset
 In our package, we create a small example dataset by subsetting the breast cancer Visium data from 10X. We already added the cell type proportion from deconvolution. In case deconvolution couldn't be performed or the data is of single cell resolution, we also provided the cell type label for each spot. Note that the Visium data is actually not single cell resolution, so the cell type label indicates the major cell type for each spot.
 ```{r loadExample, eval=TRUE}
+set.seed(1234)
+
 library(RegionalST)
+library("gridExtra")
 data(example_sce)
 
 ## the proportion information is saved under the metadata
-example_sce@metadata$Proportions[1:5,1:5]
+S4Vectors::metadata(example_sce)$Proportions[1:5,1:5]
 
 ## the cell type information is saved under a cell type variable
 head(example_sce$celltype)
@@ -104,7 +107,7 @@ First, we want to preprocess the data using the functions from BayesSpace:
 ```{r pre1, eval=TRUE, message = FALSE}
 library(BayesSpace)
 example_sce <- example_sce[, colSums(counts(example_sce)) > 0]
-example_sce <- spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 ```
 Second, we assign weights to each cell type and check the entropy at different radii.
 ```{r addweight, eval=TRUE, message=FALSE, progress=FALSE, results='hide'}
