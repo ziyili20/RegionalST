@@ -1,7 +1,7 @@
 Package: RegionalST
 Type: Package
 Title: Investigating regions of interest and performing cross-regional analysis with spatial transcriptomics data
-Version: 0.99.4
+Version: 0.99.5
 Authors@R: person(given = "Ziyi", 
                   family = "Li", 
                   role=c("aut", "cre"), 
