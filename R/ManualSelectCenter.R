@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' data("example_sce")
-#' example_sce <- BayesSpace::spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+#' example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 #' # I commented this out because the shiny app will get stuck without input.
 #' # example_sce <- ManualSelectCenter(example_sce)
 #'

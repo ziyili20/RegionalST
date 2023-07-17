@@ -15,6 +15,15 @@ vignette: |
   %\VignetteEncoding{UTF-8}
 ---
 
+# Install RegionalST
+To install this package, start R (version "4.3") and enter:
+
+```{r install, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("RegionalST") 
+```
 
 # Preparing your data for RegionalST through BayesSpace
 
@@ -56,7 +65,7 @@ library(BayesSpace)
 outdir = "/Dir/To/Data/BreastCancer_10x"
 sce <- readVisium(outdir)
 sce <- spatialPreprocess(sce, platform="Visium", log.normalize=TRUE)
-spatial_count <- sce@assays@data$counts
+spatial_count <- assays(sce)$counts
 spatial_location <- data.frame(x = sce$imagecol,
                                y = max(sce$imagerow) - sce$imagerow)
 rownames(spatial_location) <- colnames(spatial_count)
@@ -83,18 +92,21 @@ CARD_obj = createCARDObject(
 CARD_obj = CARD_deconvolution(CARD_object = CARD_obj)
 
 ## add proportion to the sce object
-sce@metadata$Proportions <- CARD_obj@Proportion_CARD
+S4Vectors::metadata(sce)$Proportions <- CARD_obj@Proportion_CARD
 ```
 
 
 ## Load example dataset
 In our package, we create a small example dataset by subsetting the breast cancer Visium data from 10X. We already added the cell type proportion from deconvolution. In case deconvolution couldn't be performed or the data is of single cell resolution, we also provided the cell type label for each spot. Note that the Visium data is actually not single cell resolution, so the cell type label indicates the major cell type for each spot.
 ```{r loadExample, eval=TRUE}
+set.seed(1234)
+
 library(RegionalST)
+library("gridExtra")
 data(example_sce)
 
 ## the proportion information is saved under the metadata
-example_sce@metadata$Proportions[1:5,1:5]
+S4Vectors::metadata(example_sce)$Proportions[1:5,1:5]
 
 ## the cell type information is saved under a cell type variable
 head(example_sce$celltype)
@@ -106,8 +118,9 @@ First, we want to preprocess the data using the functions from BayesSpace:
 ```{r pre1, eval=TRUE, message = FALSE}
 library(BayesSpace)
 example_sce <- example_sce[, colSums(counts(example_sce)) > 0]
-example_sce <- spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 ```
+
 Second, we assign weights to each cell type and check the entropy at different radii.
 ```{r addweight, eval=TRUE, message=FALSE, progress=FALSE, results='hide'}
 weight <- data.frame(celltype = c("Cancer Epithelial", "CAFs", "T-cells", "Endothelial",
@@ -145,7 +158,6 @@ Let's visualize all the selected ROIs:
 ## let's visualize the selected regions:
 palette <- colorspace::qualitative_hcl(9, 
                                        palette = "Set2")
-library("gridExtra")
 selplot <- list()
 topN = 3
 for(i in 1:topN) {
@@ -158,7 +170,7 @@ do.call("grid.arrange", c(selplot, ncol = 2))
 ```
 You can save your selected ROIs to an `.RData` file for future analysis and reproducible purposes:
 ```{r saveres, eval=FALSE}
-thisSelection <- metadata(sce)$selectCenters
+thisSelection <- S4Vectors::metadata(sce)$selectCenters
 save(thisSelection, file = "/Your/Directory/SelectionResults_withProportions.RData")
 ```
 
@@ -166,7 +178,7 @@ save(thisSelection, file = "/Your/Directory/SelectionResults_withProportions.RDa
 In addition to automatic selections, we can also manually select ROIs through a shiny app:
 ```{r shiny1, eval=FALSE}
 example_sce <- ManualSelectCenter(example_sce)
-metadata(example_sce)$selectCenters
+S4Vectors::metadata(example_sce)$selectCenters
 ```
 ![Example of the shiny app](manuselect.PNG)
 ### Draw cell type proportions for the selected ROIs
@@ -178,7 +190,7 @@ DrawRegionProportion_withProp(example_sce,
 
 ## Perform Cross-regional Differential Analysis with proportions
 One important downloaded analysis after we identified the ROIs is to understand the differentially expressed genes comparing one ROI to the other. Let's compare the first and the second ROIs.
-```{r DE1, eval=TRUE, message=FALSE, progress=FALSE}
+```{r DE1, eval=TRUE, message=FALSE, progress=FALSE, warning=FALSE}
 CR12_DE <- GetCrossRegionalDE_withProp(example_sce, 
                                        twoCenter = c(1,2),
                                        label = "celltype",
@@ -319,7 +331,6 @@ Let's visualize all the selected ROIs:
 ## let's visualize the selected regions:
 palette <- colorspace::qualitative_hcl(9, 
                                        palette = "Set2")
-library("gridExtra")
 selplot <- list()
 topN = 3
 for(i in 1:topN) {
@@ -332,7 +343,7 @@ do.call("grid.arrange", c(selplot, ncol = 2))
 ```
 You can save your selected ROIs to an `.RData` file for future analysis and reproducible purposes:
 ```{r saveres2, eval=FALSE}
-thisSelection <- metadata(example_sce)$selectCenters
+thisSelection <- S4Vectors::metadata(example_sce)$selectCenters
 save(thisSelection, file = "/Your/Directory/SelectionResults_withProportions.RData")
 ```
 

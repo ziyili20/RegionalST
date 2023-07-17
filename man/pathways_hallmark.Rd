@@ -13,6 +13,9 @@ A list object.
 \usage{
 data(pathways_hallmark)
 }
+\value{
+A list object.
+}
 \description{
 Hallmark database downloaded from MSigDB (Feb, 2023)
 }

@@ -4,11 +4,13 @@
 #' @param ploti A number of indicate which ROI to plot.
 #' @param enhanced A logical variable for using enhanced data or not.
 #'
+#' @importFrom gridExtra grid.arrange
+#'
 #' @return A figure object for the selected ROI.
 #' @export
 #' @examples
 #' data("example_sce")
-#' example_sce <- BayesSpace::spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+#' example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 #' PlotOneSelectedCenter(example_sce, ploti = 1)
 #'
 PlotOneSelectedCenter <- function(sce,

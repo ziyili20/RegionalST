@@ -10,6 +10,9 @@ A SingleCellExperiment object.
 \usage{
 data(example_sce)
 }
+\value{
+A SingleCellExperiment object.
+}
 \description{
 A simulated example input data file
 }

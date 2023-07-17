@@ -46,7 +46,7 @@ Automatically rank ROI centers based on entropy
 }
 \examples{
 data("example_sce")
-example_sce <- BayesSpace::spatialPreprocess(example_sce, platform="Visium", log.normalize=TRUE)
+example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 weight <- data.frame(celltype = c("Cancer Epithelial", "CAFs", "T-cells", "Endothelial",
                                   "PVL", "Myeloid", "B-cells", "Normal Epithelial", "Plasmablasts"),
                      weight = c(0.25,0.05,

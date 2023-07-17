@@ -8,6 +8,8 @@
 #'
 #' @format A list object.
 #'
+#' @return A list object.
+#'
 #' @keywords datasets
 #'
 #' @references Liberzon et al. (2015) Cell Syst. 1(6):417-425

@@ -13,6 +13,9 @@ A list object.
 \usage{
 data(pathways_kegg)
 }
+\value{
+A list object.
+}
 \description{
 KEGG database downloaded from MSigDB (Feb, 2023)
 }

@@ -8,6 +8,8 @@
 #'
 #' @format A list object.
 #'
+#' @return A list object.
+#'
 #' @keywords datasets
 #'
 #' @references Kanehisa and Goto (2000) Nucleic Acids Research 28(1):27-30

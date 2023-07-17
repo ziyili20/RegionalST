@@ -8,6 +8,8 @@
 #'
 #' @format A SingleCellExperiment object.
 #'
+#' @return A SingleCellExperiment object.
+#'
 #' @keywords datasets
 #'
 #' @examples

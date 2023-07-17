@@ -33,11 +33,11 @@ DrawRegionProportion_withProp <- function(sce,
         tmp <- sce@metadata$Proportions[match(OneRegOut$closeID, sce$spot), ]
         ttmp <- colSums(tmp)
         region <- c(region, rep(thisCenter, length(ttmp)))
-        eval(parse(text = paste0(label, " = c(", label, ", names(ttmp))")))
+        eval(parse(text = paste0(label, " <- c(", label, ", names(ttmp))")))
         prop <- c(prop, c(ttmp)/sum(ttmp)*100)
     }
 
-    eval(parse(text = paste0("dataframe = data.frame(region = region,
+    eval(parse(text = paste0("dataframe <- data.frame(region = region,
                            celltype = ", label, ", prop = prop)")))
     p2 <- c()
     eval(parse(text = paste0("p2 <- ggplot2::ggplot(dataframe,  ggplot2::aes(fill = ", label, ",
@@ -48,5 +48,6 @@ DrawRegionProportion_withProp <- function(sce,
         ggplot2::theme_minimal() + ggplot2::ylab('Proportions') + ggplot2::xlab('Region') +
         ggplot2::theme(panel.background = ggplot2::element_blank()) +
         ggplot2::scale_fill_manual(values = colorspace::rainbow_hcl(length(unique(", label, "))))")))
-    return(print(p2))
+
+    return(p2)
 }

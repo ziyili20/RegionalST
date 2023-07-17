@@ -8,6 +8,8 @@
 #'
 #' @format A list object.
 #'
+#' @return A list object.
+#'
 #' @keywords datasets
 #'
 #'

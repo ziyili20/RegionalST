@@ -1,7 +1,7 @@
 Package: RegionalST
 Type: Package
 Title: Investigating regions of interest and performing cross-regional analysis with spatial transcriptomics data
-Version: 0.99.1
+Version: 0.99.4
 Authors@R: person(given = "Ziyi", 
                   family = "Li", 
                   role=c("aut", "cre"), 
@@ -12,7 +12,13 @@ Encoding: UTF-8
 LazyData: FALSE
 RoxygenNote: 7.2.3
 biocViews: Spatial, Transcriptomics, Reactome, KEGG
-Depends: R (>= 4.2.0)
-Imports: stats, grDevices, utils, ggplot2, dplyr, BayesSpace, fgsea, magrittr, SingleCellExperiment, RColorBrewer, Seurat, S4Vectors, tibble, TOAST, assertthat, colorspace, shiny, SummarizedExperiment
-Suggests: BiocStyle, knitr, rmarkdown, gplots
+Depends: R (>= 4.3.0)
+Imports: stats, grDevices, utils, ggplot2, dplyr, scater, gridExtra, BayesSpace, fgsea, magrittr, SingleCellExperiment, RColorBrewer, Seurat, S4Vectors, tibble, TOAST, assertthat, colorspace, shiny, SummarizedExperiment
+Suggests: 
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    gplots,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
