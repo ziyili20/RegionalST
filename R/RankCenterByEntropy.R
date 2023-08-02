@@ -38,6 +38,16 @@ RankCenterByEntropy <- function(sce,
                                 avern = 5,
                                 radius_vec = c(10,15,20),
                                 doPlot = TRUE) {
+  
+    stopifnot(exprs = {
+      is.numeric(selectN)
+      is.character(label)
+      is.numeric(topN)
+      is.numeric(min_radius)
+      is.numeric(avern)
+      is.numeric(radius_vec)
+    })
+  
     allID <- c()
     allEnt <- c()
     allGrp <- c()

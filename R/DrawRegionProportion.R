@@ -13,6 +13,10 @@
 DrawRegionProportion <- function(sce,
                                  label = "celltype",
                                  selCenter = seq_len(10)) {
+  
+      stopifnot(exprs = {
+          is.character(label)
+      })
 
     region <- c()
     celltype <- c()

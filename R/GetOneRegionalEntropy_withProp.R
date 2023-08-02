@@ -1,7 +1,7 @@
 GetOneRegionalEntropy_withProp <- function(sce,
                                            regionOut,
                                            weight = NULL) {
-    propmat <- sce@metadata$Proportions
+    propmat <- S4Vectors::metadata(sce)$Proportions
 
     regionCT <- propmat[rownames(propmat) %in% regionOut$closeID, ]
     CTdist <- colSums(regionCT)

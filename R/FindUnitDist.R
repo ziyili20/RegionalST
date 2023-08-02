@@ -1,4 +1,8 @@
 FindUnitDist <- function(sce, avern = 5) {
+    stopifnot(exprs = {
+      is.numeric(avern)
+    })
+  
     xloc <- sce$imagecol
     yloc <- sce$imagerow
 

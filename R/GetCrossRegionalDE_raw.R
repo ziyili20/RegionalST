@@ -36,6 +36,18 @@ GetCrossRegionalDE_raw <- function(sce,
                                    padj_filter = 0.05,
                                    doHeatmap = TRUE) {
 
+    stopifnot(exprs = {
+      is.numeric(twoCenter)
+      is.character(label)
+      is.numeric(n_markers)
+      is.numeric(logfc.threshold)
+      is.numeric(angle)
+      is.numeric(hjust)
+      is.numeric(size)
+      is.numeric(min.pct)
+      is.numeric(padj_filter)
+    })
+  
     thisID1 <- S4Vectors::metadata(sce)$selectCenters$selectID[twoCenter[1]]
     thisRadius1 <- S4Vectors::metadata(sce)$selectCenters$selectRadius[twoCenter[1]]
     OneRegOut1 <- FindRegionalCells(sce,

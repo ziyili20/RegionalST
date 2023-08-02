@@ -16,7 +16,10 @@
 DrawRegionProportion_withProp <- function(sce,
                                           label = "CARD_CellType",
                                           selCenter = seq_len(10)) {
-
+    stopifnot(exprs = {
+      is.character(label)
+    })
+  
     region <- c()
     prop <- c()
     eval(parse(text = paste0(label, " = c()")))

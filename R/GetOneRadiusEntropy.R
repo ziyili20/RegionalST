@@ -36,6 +36,12 @@ GetOneRadiusEntropy <- function(sce,
                                 radius = 10,
                                 doPlot = FALSE,
                                 mytitle = NULL) {
+  
+    stopifnot(exprs = {
+      is.numeric(selectN)
+      is.character(label)
+      is.numeric(radius)
+    })
 
     if(enhanced) {
         allspot <- colnames(sce@assays@data$logcounts)

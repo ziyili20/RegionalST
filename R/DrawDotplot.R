@@ -31,6 +31,17 @@ DrawDotplot <- function(allCTres,
                         chooseP = "padj",
                         eachN = NULL) {
 
+    stopifnot(exprs = {
+        is.numeric(CT)
+        is.numeric(angle)
+        is.numeric(vjust)
+        is.numeric(hjust)
+        is.numeric(padj_cutoff)
+        is.numeric(topN)
+        chooseP %in% c("padj", "pval")
+        is.null(eachN) | is.numeric(eachN)
+    })
+  
     thisres <- allCTres[[CT]]
     thisres <- thisres[thisres$padj <= padj_cutoff, ]
     if (is.null(eachN)) {

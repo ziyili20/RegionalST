@@ -68,7 +68,7 @@ sc_meta <- data.frame(cellID = colnames(BRCA_countmat),
 rownames(sc_meta) <- colnames(BRCA_countmat)
 
 library(CARD)
-CARD_obj = createCARDObject(
+CARD_obj <- createCARDObject(
     sc_count = sc_count,
     sc_meta = sc_meta,
     spatial_count = spatial_count,
@@ -78,7 +78,7 @@ CARD_obj = createCARDObject(
     sample.varname = "sampleInfo",
     minCountGene = 100,
     minCountSpot = 5) 
-CARD_obj = CARD_deconvolution(CARD_object = CARD_obj)
+CARD_obj <- CARD_deconvolution(CARD_object = CARD_obj)
 
 ## add proportion to the sce object
 sce@metadata$Proportions <- CARD_obj@Proportion_CARD
@@ -92,7 +92,7 @@ library(RegionalST)
 data(example_sce)
 
 ## the proportion information is saved under the metadata
-example_sce@metadata$Proportions[1:5,1:5]
+example_sce@metadata$Proportions[seq_len(5),seq_len(5)]
 
 ## the cell type information is saved under a cell type variable
 head(example_sce$celltype)
@@ -146,7 +146,7 @@ palette <- colorspace::qualitative_hcl(9,
 library("gridExtra")
 selplot <- list()
 topN = 3
-for(i in 1:topN) {
+for(i in seq_len(topN)) {
     selplot[[i]] <- print(PlotOneSelectedCenter(example_sce,ploti = i))
 }
 selplot[[topN+1]] <- print(clusterPlot(example_sce, palette=palette, label = "celltype", size=0.1) ) 
@@ -171,7 +171,7 @@ metadata(example_sce)$selectCenters
 ```{r draw1, eval=TRUE}
 DrawRegionProportion_withProp(example_sce,
                               label = "CellType",
-                              selCenter = 1:3)
+                              selCenter = c(1,2,3))
 ```
 
 ## Perform Cross-regional Differential Analysis with proportions
@@ -264,11 +264,11 @@ patchwork::wrap_plots(spot_plots, ncol=3)
 
 #### assign celltype based on marker distribution
 sce$celltype <- sce$spatial.cluster
-sce$celltype[sce$spatial.cluster %in% c(1,2,6,8)] = "Epithelial"
-sce$celltype[sce$spatial.cluster %in% c(3)] = "Macrophages"
-sce$celltype[sce$spatial.cluster %in% c(4,5)] = "Immune"
-sce$celltype[sce$spatial.cluster %in% c(9,7,10)] = "Tumor"
-colData(sce)$celltype = sce$celltype
+sce$celltype[sce$spatial.cluster %in% c(1,2,6,8)] <- "Epithelial"
+sce$celltype[sce$spatial.cluster %in% c(3)] <- "Macrophages"
+sce$celltype[sce$spatial.cluster %in% c(4,5)] <- "Immune"
+sce$celltype[sce$spatial.cluster %in% c(9,7,10)] <- "Tumor"
+colData(sce)$celltype <- sce$celltype
 ```
 
 ## Load example dataset
@@ -320,7 +320,7 @@ palette <- colorspace::qualitative_hcl(9,
 library("gridExtra")
 selplot <- list()
 topN = 3
-for(i in 1:topN) {
+for(i in seq_len(topN)) {
     selplot[[i]] <- print(PlotOneSelectedCenter(example_sce,ploti = i))
 }
 selplot[[topN+1]] <- print(clusterPlot(example_sce, palette=palette, label = "celltype", size=0.1) ) 
@@ -371,12 +371,12 @@ CR23_DE <- GetCrossRegionalDE_raw(example_sce,
 ```{r gsea1, eval=TRUE, message=FALSE, warning=FALSE, fig.show='hide', results=FALSE}
 allfigure <- list()
 allCTres <- DoGSEA(exampleRes, whichDB = "hallmark", withProp = TRUE)
-for(i in 1:3) {
+for(i in seq_len(3)) {
     allfigure[[i]] <- DrawDotplot(allCTres, CT = i, angle = 15, vjust = 1, chooseP = "padj")
 }
 ```
 ```{r,gsea2, eval=TRUE, fig.width=20, message=FALSE, warning=FALSE,fig.height=8, results=FALSE}
-do.call("grid.arrange", c(allfigure[1:3], ncol = 3)) 
+do.call("grid.arrange", c(allfigure[c(1,2,3)], ncol = 3)) 
 ```
 ```{r,gsea22, eval=TRUE, message=FALSE, warning=FALSE, results=FALSE}
 ### draw each cell type individually, here I am drawing cell type = 3

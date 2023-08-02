@@ -21,6 +21,12 @@ FindRegionalCells <- function(sce,
                               doPlot = FALSE,
                               returnPlot = FALSE) {
 
+    stopifnot(exprs = {
+        is.character(centerID)
+        is.numeric(radius)
+        is.numeric(avern)
+    })
+  
     unitDist <- FindUnitDist(sce, avern = avern)
 
     xloc <- sce$imagecol

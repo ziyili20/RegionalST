@@ -19,9 +19,19 @@
 #' data(example_sce)
 #' example_sce <- mySpatialPreprocess(example_sce, platform="Visium")
 #'
-mySpatialPreprocess <- function (sce, platform = c("Visium", "ST"), n.PCs = 15, n.HVGs = 2000,
-          skip.PCA = FALSE, assay.type = "logcounts")
+mySpatialPreprocess <- function (sce, 
+                                 platform = c("Visium", "ST"), 
+                                 n.PCs = 15, 
+                                 n.HVGs = 2000,
+                                 skip.PCA = FALSE, 
+                                 assay.type = "logcounts")
 {
+    stopifnot(exprs = {
+      platform %in% c("Visium", "ST")
+      is.numeric(n.PCs)
+      is.numeric(n.HVGs)
+    })
+  
     S4Vectors::metadata(sce)$BayesSpace.data <- list()
     S4Vectors::metadata(sce)$BayesSpace.data$platform <- match.arg(platform)
     S4Vectors::metadata(sce)$BayesSpace.data$is.enhanced <- FALSE

@@ -16,6 +16,11 @@
 PlotOneSelectedCenter <- function(sce,
                                   ploti,
                                   enhanced = FALSE) {
+  
+    stopifnot(exprs = {
+      is.numeric(ploti)
+    })
+  
     if(is.null(S4Vectors::metadata(sce)$selectCenters$selectEnt)) {
         p1 <- FindRegionalCells(sce,
                                centerID = S4Vectors::metadata(sce)$selectCenters$selectCenters[ploti],

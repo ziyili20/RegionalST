@@ -21,6 +21,12 @@ DoGSEA <- function(considerRes,
                    gmtdir = NULL,
                    withProp = FALSE) {
 
+    stopifnot(exprs = {
+        is.list(considerRes)
+        is.character(whichDB)
+        is.null(gmtdir) | is.character(gmtdir)
+    })
+  
     data_env <- new.env(parent = emptyenv())
 
     if (!is.null(gmtdir)) {

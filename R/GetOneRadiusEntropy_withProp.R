@@ -32,6 +32,12 @@ GetOneRadiusEntropy_withProp <- function(sce,
                                          radius = 10,
                                          doPlot = FALSE,
                                          mytitle = NULL) {
+  
+    stopifnot(exprs = {
+      is.numeric(selectN)
+      is.character(label)
+      is.numeric(radius)
+    })
     allspot <- sce$spot
     sel_center <- sample(allspot, selectN)
 

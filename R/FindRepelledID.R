@@ -6,6 +6,12 @@ FindRepelledID <- function(sce,
                            min_radius = 5,
                            avern = 5,
                            MaxN = 10) {
+  
+    stopifnot(exprs = {
+        is.numeric(min_radius)
+        is.numeric(avern)
+        is.numeric(MaxN)
+    })
     unitDist <- FindUnitDist(sce, avern = avern)
 
     idx <- order(allEnt, decreasing = TRUE)

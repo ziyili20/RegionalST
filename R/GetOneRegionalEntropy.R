@@ -3,6 +3,11 @@ GetOneRegionalEntropy <- function(sce,
                                   enhanced = FALSE,
                                   weight = NULL,
                                   label = "celltype") {
+  
+    stopifnot(exprs = {
+      is.character(label)
+    })
+  
     alllabel <- eval(parse(text = paste0("sce$", label)))
 
     if(enhanced) {
