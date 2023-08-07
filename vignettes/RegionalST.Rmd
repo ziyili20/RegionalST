@@ -92,7 +92,7 @@ CARD_obj <- createCARDObject(
 CARD_obj <- CARD_deconvolution(CARD_object = CARD_obj)
 
 ## add proportion to the sce object
-S4Vectors::metadata(sce)$Proportions <- CARD_obj@Proportion_CARD
+S4Vectors::metadata(sce)$Proportions <- RegionalST::getProportions(CARD_obj)
 ```
 
 
