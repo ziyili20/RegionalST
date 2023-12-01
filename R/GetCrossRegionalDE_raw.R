@@ -87,11 +87,25 @@ GetCrossRegionalDE_raw <- function(sce,
     }
 
     allcloseID <- c(OneRegOut1$closeID, OneRegOut2$closeID)
-    seuratObj <- Seurat::CreateSeuratObject(counts=SingleCellExperiment::logcounts(sce)[, match(allcloseID, colnames(SingleCellExperiment::logcounts(sce)))],
+    thiscountmat <- SingleCellExperiment::logcounts(sce)[, match(allcloseID, colnames(SingleCellExperiment::logcounts(sce)))]
+    thismetadata <- as.data.frame(newcoldata)[match(allcloseID, colnames(SingleCellExperiment::logcounts(sce))), ]
+    
+    colnames(thiscountmat) <- make.names(colnames(thiscountmat), unique = TRUE)
+    rownames(thismetadata) <- thismetadata$spot <- colnames(thiscountmat)
+    seuratObj <- Seurat::CreateSeuratObject(counts= thiscountmat,
                                             assay='Spatial',
-                                            meta.data=as.data.frame(newcoldata)[match(allcloseID, colnames(SingleCellExperiment::logcounts(sce))), ])
-    Seurat::Idents(seuratObj) <- seuratObj@meta.data$NewCellType
-
+                                            meta.data= thismetadata)
+    seuratObj <- Seurat::CreateSeuratObject(counts= thiscountmat,
+                                            assay='Spatial')
+    seuratObj <- Seurat::NormalizeData(seuratObj)
+    all.genes <- rownames(seuratObj)
+    seuratObj <- Seurat::ScaleData(seuratObj, features = all.genes)
+    seuratObj <- Seurat::FindVariableFeatures(seuratObj, selection.method = "vst", nfeatures = 2000)
+    seuratObj <- Seurat::RunPCA(seuratObj, features = Seurat::VariableFeatures(object = seuratObj))
+    seuratObj <- Seurat::FindNeighbors(seuratObj, dims = 1:10)
+    seuratObj <- Seurat::FindClusters(seuratObj, resolution = 0.5)
+    
+    Seurat::Idents(seuratObj) <- thismetadata$NewCellType
     allDE <- c()
     allCT <- unique(intersect(unique(CellType1), unique(CellType2)))
     for(i in seq_len(length(allCT))) {
@@ -101,7 +115,8 @@ GetCrossRegionalDE_raw <- function(sce,
             n2 <- sum(Seurat::Idents(seuratObj) == paste0(twoCenter[2], "_", allCT[i]))
 
             if (n1 > 3 & n2 > 3) {
-                newDEres <- Seurat::FindMarkers(seuratObj, ident.1 = paste0(twoCenter[1], "_", allCT[i]),
+                newDEres <- Seurat::FindMarkers(seuratObj, 
+                                                ident.1 = paste0(twoCenter[1], "_", allCT[i]),
                                                 ident.2 = paste0(twoCenter[2], "_", allCT[i]),
                                                 logfc.threshold = logfc.threshold,
                                                 min.pct = min.pct)
@@ -142,16 +157,15 @@ GetCrossRegionalDE_raw <- function(sce,
 
     if (doHeatmap) {
         ## Scale data
-        seuratObj@assays$Spatial@scale.data <-
-            seuratObj@assays$Spatial@data %>% as.matrix %>% t %>% scale %>% t
+        seuratObj@assays$Spatial$scale.data <-
+            seuratObj@assays$Spatial$counts %>% as.matrix %>% t %>% scale %>% t
 
         palette <- RColorBrewer::brewer.pal(2*length(allCT), "Paired")
         Seurat::Idents(seuratObj) <- factor(Seurat::Idents(seuratObj), levels = paste0(twoCenter, "_", rep(allCT, each = 2)))
         ## Plot expression of markers
         p1 <- Seurat::DoHeatmap(seuratObj, features = top_markers$gene, slot='scale.data',
                                 group.colors=palette,
-                                angle=angle, size=size, hjust = hjust, label = TRUE, raster=FALSE) +
-            guides(col = FALSE)
+                                angle=angle, size=size, hjust = hjust, label = TRUE, raster=FALSE)
         print(p1)
     }
     return(list(allDE = allDE,

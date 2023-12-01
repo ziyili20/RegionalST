@@ -121,16 +121,19 @@ GetCrossRegionalDE_withProp <- function(sce,
         thiscoldata$TwoGroupInfo[match(OneRegOut2$closeID, sce$spot)] <- twoCenter[2]
         thiscoldata$NewCellType <- thiscoldata$TwoGroupInfo
 
-        seuratObj <- Seurat::CreateSeuratObject(counts=SingleCellExperiment::logcounts(sce)[, match(allcloseID, colnames(SingleCellExperiment::logcounts(sce)))],
+        seuratObj <- Seurat::CreateSeuratObject(counts=SingleCellExperiment::logcounts(sce)[, match(unique(allcloseID), colnames(SingleCellExperiment::logcounts(sce)))],
                                                 assay='Spatial')
-        tmpmetadata <- as.data.frame(thiscoldata)[match(allcloseID, colnames(SingleCellExperiment::logcounts(sce))), ]
+        tmpmetadata <- as.data.frame(thiscoldata)[match(unique(allcloseID), colnames(SingleCellExperiment::logcounts(sce))), ]
         rownames(tmpmetadata) <- colnames(seuratObj)
         seuratObj@meta.data <- tmpmetadata
         Seurat::Idents(seuratObj) <- seuratObj@meta.data$NewCellType
 
+        seuratObj <- Seurat::NormalizeData(seuratObj)
+        seuratObj <- Seurat::ScaleData(seuratObj)
+
         ## Scale data
-        seuratObj@assays$Spatial@scale.data <-
-            seuratObj@assays$Spatial@data %>% as.matrix %>% t %>% scale %>% t
+        seuratObj@assays$Spatial$scale.data <-
+            seuratObj@assays$Spatial$counts %>% as.matrix %>% t %>% scale %>% t
 
         palette <- RColorBrewer::brewer.pal(12, "Paired")
         Seurat::Idents(seuratObj) <- factor(Seurat::Idents(seuratObj), levels = c(twoCenter))
@@ -139,7 +142,7 @@ GetCrossRegionalDE_withProp <- function(sce,
             stop("There is no significant genes to plot! Try increase your filtering criteria.")
         }
         ## Plot expression of markers
-        p1 <- Seurat::DoHeatmap(seuratObj, features = top_markers$gene, slot='scale.data',
+        p1 <- Seurat::DoHeatmap(seuratObj, features = top_markers$gene, slot='counts',
                                 group.colors=palette,
                                 angle=angle, size=size, hjust = hjust, label = TRUE, raster=FALSE) +
             ggplot2::guides(col = FALSE)
