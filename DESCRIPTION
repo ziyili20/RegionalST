@@ -1,7 +1,7 @@
 Package: RegionalST
 Type: Package
 Title: Investigating regions of interest and performing regional cell type-specific analysis with spatial transcriptomics data
-Version: 1.5.4
+Version: 1.2.1
 Authors@R: person(given = "Ziyi", 
                   family = "Li", 
                   role=c("aut", "cre"), 
